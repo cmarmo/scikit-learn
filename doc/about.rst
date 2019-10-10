@@ -1,5 +1,4 @@
 .. _about:
-
 About us
 ========
 
