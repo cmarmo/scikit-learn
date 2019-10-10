@@ -172,10 +172,13 @@ affected_doc_paths() {
 affected_doc_warnings() {
     files=$(git diff --name-only origin/master...$CIRCLE_SHA1)
     # Look for sphinx warnings only in files affected by the PR
+    warn=""
     for af in ${files[@]}
     do
-      grep WARNING ~/log.txt | grep $af
+      warn+=grep WARNING ~/log.txt | grep $af
+      warn+="\n"
     done
+    echo $warn
 }
 
 if [ -n "$CI_PULL_REQUEST" ]
@@ -191,11 +194,8 @@ then
     echo '<html><body><ul>'
     echo "$affected" | sed 's|.*|<li><a href="&">&</a> [<a href="https://scikit-learn.org/dev/&">dev</a>, <a href="https://scikit-learn.org/stable/&">stable</a>]</li>|'
     echo '</ul><p>General: <a href="index.html">Home</a> | <a href="modules/classes.html">API Reference</a> | <a href="auto_examples/index.html">Examples</a></p>'
-    echo '<h4>New Sphinx Warnings</h4>'
-    for w in ${warnings[@]}
-    do
-        echo '<p>'$w'</p>'
-    done
+    echo '<strong>New Sphinx Warnings</strong>'
+    echo '<p>'$w'</p>'
     echo '</body></html>'
     ) > 'doc/_build/html/stable/_changed.html'
 fi
