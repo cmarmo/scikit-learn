@@ -174,7 +174,7 @@ affected_doc_warnings() {
     # Look for sphinx warnings only in files affected by the PR
     for af in ${files[@]}
     do
-      grep WARNING ~/log.txt | grep $af; echo '<br />'
+      grep WARNING ~/log.txt | grep $af
     done
 }
 
@@ -191,9 +191,9 @@ then
     echo '<html><body><ul>'
     echo "$affected" | sed 's|.*|<li><a href="&">&</a> [<a href="https://scikit-learn.org/dev/&">dev</a>, <a href="https://scikit-learn.org/stable/&">stable</a>]</li>|'
     echo '</ul><p>General: <a href="index.html">Home</a> | <a href="modules/classes.html">API Reference</a> | <a href="auto_examples/index.html">Examples</a></p>'
-    echo '<strong>New Sphinx Warnings</strong>'
-    echo '<p>'$warnings'</p>'
-    echo '</body></html>'
+    echo '<strong>New Sphinx Warnings</strong><ul>'
+    echo "$warnings" | sed 's/\/home\/circleci\/project\//<li>/g'
+    echo '</ul></body></html>'
     ) > 'doc/_build/html/stable/_changed.html'
 fi
 
