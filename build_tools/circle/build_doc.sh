@@ -174,7 +174,7 @@ affected_doc_warnings() {
     # Look for sphinx warnings only in files affected by the PR
     for af in ${files[@]}
     do
-      grep WARNING ~/log.txt | grep $af
+      grep WARNING ~/log.txt | grep $af; echo '<br />'
     done
 }
 
