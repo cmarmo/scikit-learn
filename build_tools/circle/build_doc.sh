@@ -204,7 +204,7 @@ then
     echo '</ul></body></html>'
     ) > 'doc/_build/html/stable/_changed.html'
 
-    check = `echo $warnings | grep "no warnings"`
+    check=`echo $warnings | grep "no warnings"`
     if [ -z "$check" ]
     then
         echo "There are Sphinx Warnings in the documentation!"
