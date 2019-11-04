@@ -58,6 +58,14 @@ get_build_type() {
         return
     fi
     changed_examples=$(echo "$filenames" | grep -E "^examples/(.*/)*plot_")
+    if [ -n "$filenames" ]
+    then
+        for af in ${filenames[@]}
+        do
+          changed_examples+=`grep figure $af | grep auto_examples | sed 's/.. figure:: ..\/auto_examples/examples/' | sed 's/images\/sphx_glr_//' | sed 's/_001.png/.py/'`
+        done
+    fi
+    changed_examples+=$(echo "$filenames" | grep -E "^examples/(.*/)*plot_")
     if [[ -n "$changed_examples" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
