@@ -62,7 +62,7 @@ get_build_type() {
     then
         for af in ${filenames[@]}
         do
-          page_examples=$(grep figure $af | grep auto_examples | sed 's/.. figure:: ..\/auto_examples/examples/' | sed 's/images\/sphx_glr_//' | sed 's/_001.png/.py/')
+          page_examples=$(grep figure modules/clustering.rst | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{$NF=""; print $0}')
         done
     fi
     changed_examples+=$page_examples
