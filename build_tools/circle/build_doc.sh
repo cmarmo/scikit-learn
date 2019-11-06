@@ -62,10 +62,10 @@ get_build_type() {
     then
         for af in ${filenames[@]}
         do
-          page_examples=$(grep figure $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{$NF=""; print $0}')
+          page_examples=$(grep figure $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
         done
     fi
-    changed_examples+=$page_examples
+    changed_examples+=$(echo ${page_examples::-1} | sed 's/_ /|/g')
     if [[ -n "$changed_examples" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
