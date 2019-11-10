@@ -60,22 +60,16 @@ get_build_type() {
     changed_examples=$(echo "$filenames" | grep -E "^examples/(.*/)*plot_")
     if [ -n "$filenames" ]
     then
-        for af in ${filenames[@]}
+        # Check for examples only in modified .rst files
+        rst_files=$(echo "$filenames" | grep -E "rst$")
+        for af in ${rst_files[@]}
         do
-            if [ $af != "build_tools/circle/build_doc.sh" ]
-            then
-                page_figure=$(grep figure $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
-                page_image=$(grep image $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
-            fi
+            page_examples+=$(grep -E "(figure|image)" $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
         done
     fi
-    if [ -n "$page_figure" ]
+    if [ -n "$page_examples" ]
     then
-        changed_examples+=$(echo ${page_figure::-1} | sed 's/_ /|/g')
-    fi
-    if [ -n "$page_image" ]
-    then
-        changed_examples+=$(echo ${page_image::-1} | sed 's/_ /|/g')
+        changed_examples+=$(echo ${page_examples::-1} | sed 's/_ /|/g')
     fi
     if [[ -n "$changed_examples" ]]
     then

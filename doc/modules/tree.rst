@@ -3,7 +3,6 @@
 ==============
 Decision Trees
 ==============
-
 .. currentmodule:: sklearn.tree
 
 **Decision Trees (DTs)** are a non-parametric supervised learning method used
