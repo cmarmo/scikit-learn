@@ -2,7 +2,6 @@
 ==================================================
 Plot different SVM classifiers in the iris dataset
 ==================================================
-
 Comparison of different linear SVM classifiers on a 2D projection of the iris
 dataset. We only consider the first 2 features of this dataset:
 
