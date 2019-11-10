@@ -64,8 +64,7 @@ get_build_type() {
         rst_files=$(echo "$filenames" | grep -E "rst$")
         for af in ${rst_files[@]}
         do
-            #
-            page_examples+=$(grep -E "(figure|image)" $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | uniq | awk -F "_" '{OFS="_";$NF=""; print $0}')
+            page_examples+=$(grep -E "\. \. (figure|image)::" $af | grep auto_example | awk -F "/" '{print $NF}' | uniq | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
         done
     fi
     if [[ -n "$changed_examples" ]]
