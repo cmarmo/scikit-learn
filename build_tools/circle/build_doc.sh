@@ -68,15 +68,15 @@ get_build_type() {
             page_examples+=$(grep -E "(figure|image)" $af | grep auto_example | awk -F "/" '{print $NF}' | sed 's/sphx_glr_//' | uniq | awk -F "_" '{OFS="_";$NF=""; print $0}')
         done
     fi
-    if [ -n "$page_examples" ]
-    then
-        changed_examples+=$(echo ${page_examples::-1} | sed 's/_ /|/g')
-    fi
     if [[ -n "$changed_examples" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
         pattern=$(echo "$changed_examples" | paste -sd '|')
         # pattern for examples to run is the last line of output
+        if [ -n "$page_examples" ]
+        then
+            pattern+=$(echo "|"${page_examples::-1} | sed 's/_ /|/g')
+        fi
         echo "$pattern"
         return
     fi
