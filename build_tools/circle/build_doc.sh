@@ -65,7 +65,7 @@ get_build_type() {
         for af in ${rst_files[@]}
         do
             rst_examples=$(grep -E "\.\. (figure|image)::" $af | grep auto_example | awk -F "/" '{print $NF}' | uniq | sed 's/sphx_glr_//' | sed -e 's/_[[:digit:]][[:digit:]][[:digit:]].png/.py/')
-            if [[ -n "$rst_examples"]]
+            if [[ -n "$rst_examples" ]]
             then
                 pattern+=$(echo "$rst_examples" | paste -sd "|")
             fi
