@@ -64,19 +64,18 @@ get_build_type() {
         rst_files=$(echo "$filenames" | grep -E "rst$")
         for af in ${rst_files[@]}
         do
-            page_examples+=$(grep -E "\.\. (figure|image)::" $af | grep auto_example | awk -F "/" '{print $NF}' | uniq | sed 's/sphx_glr_//' | awk -F "_" '{OFS="_";$NF=""; print $0}')
+            rst_examples=$(grep -E "\.\. (figure|image)::" $af | grep auto_example | awk -F "/" '{print $NF}' | uniq | sed 's/sphx_glr_//' | sed -e 's/_[[:digit:]][[:digit:]][[:digit:]].png/.py/')
+            if [[ -n "$rst_examples"]]
+            then
+                pattern+=$(echo "$rst_examples" | paste -sd "|")
+            fi
         done
     fi
     if [[ -n "$changed_examples" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
-        pattern=$(echo "$changed_examples" | paste -sd '|')
+        pattern+=$(echo "|""$changed_examples" | paste -sd '|')
         # pattern for examples to run is the last line of output
-        if [ -n "$page_examples" ]
-        then
-            pattern+=$(echo "|"${page_examples::-1} | sed 's/_ /|/g')
-        fi
-        echo "$pattern"
         return
     fi
     echo QUICK BUILD: no examples/ filename modified in $git_range:
