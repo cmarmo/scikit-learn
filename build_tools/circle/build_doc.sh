@@ -75,7 +75,6 @@ get_build_type() {
 
         # get unique values
         examples_in_rst="$(echo "$image_paths" | uniq | paste -sd '|')"
-        echo BUILD: detected examples in files modified in $git_range: $examples_in_rst
     fi
 
     if [[ -n "$changed_examples" ]]
@@ -88,15 +87,19 @@ get_build_type() {
         fi
         # pattern for examples to run is the last line of output
         echo BUILD: detected examples/ filename modified in $git_range: $pattern
+        echo $pattern
         return
     else
         if [[ -n "$examples_in_rst" ]]
         then
             # pattern for examples to run is the last line of output
             echo BUILD: detected examples/ filename modified in $git_range: $pattern
+            echo $pattern
             return
         fi
     fi
+    echo QUICK BUILD: no examples/ filename modified in $git_range:
+    echo "$filenames"
 }
 
 build_type=$(get_build_type)
