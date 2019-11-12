@@ -58,25 +58,36 @@ get_build_type() {
         return
     fi
     changed_examples=$(echo "$filenames" | grep -E "^examples/(.*/)*plot_")
-    if [ -n "$filenames" ]
+
+    if [[ -n "$filenames" ]]
     then
-        # Check for examples only in modified .rst files
-        rst_files=$(echo "$filenames" | grep -E "rst$")
-        for af in ${rst_files[@]}
-        do
-            rst_examples=$(grep -E "\.\. (figure|image)::" $af | grep auto_example | awk -F "/" '{print $NF}' | uniq | sed 's/sphx_glr_//' | sed -e 's/_[[:digit:]][[:digit:]][[:digit:]].png/.py/')
-            if [[ -n "$rst_examples" ]]
-            then
-                pattern+=$(echo "|""$rst_examples" | paste -sd "|")
-            fi
-        done
+        # get rst files
+        rst_files="$(echo "$filenames" | grep -E "rst$")"
+
+        # get lines with figure or images
+        img_fig_lines="$(echo "$rst_files" | xargs grep -shE "\.\. (figure|image)::")"
+
+        # get only auto_examples
+        auto_example_files="$(echo "$img_fig_lines" | grep auto_examples | awk -F "/" '{print $NF}')"
+
+        # remove "images/sphx_glr_" from path and accept replace _\d\d\d.png with .py
+        image_paths="$(echo "$auto_example_files" | sed 's/images\/sphx_glr_//' | sed -e 's/_[[:digit:]][[:digit:]][[:digit:]].png/.py/')"
+
+        # get unique values
+        examples_in_rst="$(echo "$image_paths" | uniq | paste -sd '|')"
+        echo BUILD: detected examples in files modified in $git_range: $examples_in_rst
     fi
+
     if [[ -n "$changed_examples" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
-        pattern+=$(echo "|""$changed_examples" | paste -sd '|')
-        # pattern for examples to run is the last line of output
-        return
+        if [[ -n "$examples_in_rst" ]]
+        then
+            pattern=$(echo "$changed_examples" | paste -sd '|')"|"$examples_in_rst
+        else
+            pattern=$(echo "$changed_examples" | paste -sd '|')
+        fi
+    # pattern for examples to run is the last line of output
     fi
     echo QUICK BUILD: no examples/ filename modified in $git_range:
     echo "$filenames"
