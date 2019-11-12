@@ -65,7 +65,7 @@ get_build_type() {
         rst_files="$(echo "$filenames" | grep -E "rst$")"
 
         # get lines with figure or images
-        img_fig_lines="$(echo "$rst_files" | xargs grep -shE "\.\. (figure|image)::")"
+        img_fig_lines="$(echo "$rst_files" | xargs grep -shE "(figure|image)::")"
 
         # get only auto_examples
         auto_example_files="$(echo "$img_fig_lines" | grep auto_examples | awk -F "/" '{print $NF}')"
