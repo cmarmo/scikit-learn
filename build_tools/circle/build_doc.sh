@@ -80,17 +80,22 @@ get_build_type() {
 
     if [[ -n "$changed_examples" ]]
     then
-        echo BUILD: detected examples/ filename modified in $git_range: $changed_examples
         if [[ -n "$examples_in_rst" ]]
         then
             pattern=$(echo "$changed_examples" | paste -sd '|')"|"$examples_in_rst
         else
             pattern=$(echo "$changed_examples" | paste -sd '|')
         fi
-    # pattern for examples to run is the last line of output
+        # pattern for examples to run is the last line of output
+        echo BUILD: detected examples/ filename modified in $git_range: $pattern
+        return
+    else
+        if [[ -n "$examples_in_rst" ]]
+            # pattern for examples to run is the last line of output
+            echo BUILD: detected examples/ filename modified in $git_range: $pattern
+            return
+        fi
     fi
-    echo QUICK BUILD: no examples/ filename modified in $git_range:
-    echo "$filenames"
 }
 
 build_type=$(get_build_type)
