@@ -91,6 +91,7 @@ get_build_type() {
         return
     else
         if [[ -n "$examples_in_rst" ]]
+        then
             # pattern for examples to run is the last line of output
             echo BUILD: detected examples/ filename modified in $git_range: $pattern
             return
