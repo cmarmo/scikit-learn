@@ -100,7 +100,7 @@ get_build_type() {
     fi
 
     # pattern for examples to run is the last line of output
-    if [[  -n "$pattern"]]
+    if [[  -n "$pattern" ]]
     then
         echo BUILD: detected examples/ filename modified in $git_range: $pattern
         echo $pattern
