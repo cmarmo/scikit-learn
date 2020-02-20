@@ -78,8 +78,8 @@ get_build_type() {
         # get only auto_examples
         auto_example_files="$(echo "$img_fig_lines" | grep auto_examples | awk -F "/" '{print $NF}')"
 
-        # remove "sphx_glr_" from path and accept replace _\d\d\d.png with .py
-        scripts_names="$(echo "$auto_example_files" | sed 's/sphx_glr_//' | sed -e 's/_[[:digit:]][[:digit:]][[:digit:]].png/.py/')"
+        # remove "sphx_glr_" from path and accept replace _(\d\d\d|thumb).png with .py
+        scripts_names="$(echo "$auto_example_files" | sed 's/sphx_glr_//' | sed -E 's/_([[:digit:]][[:digit:]][[:digit:]]|thumb).png/.py/')"
 
         # get unique values
         examples_in_rst="$(echo "$scripts_names" | uniq )"
@@ -88,12 +88,12 @@ get_build_type() {
     # executed only if there are examples in the modified rst files
     if [[ -n "$examples_in_rst" ]]
     then
-	if [[ -n "$changed_examples" ]]
-	then
-		changed_examples="$changed_examples|$examples_in_rst"
-	else
-		changed_examples="$examples_in_rst"
-	fi
+        if [[ -n "$changed_examples" ]]
+        then
+            changed_examples="$changed_examples|$examples_in_rst"
+        else
+            changed_examples="$examples_in_rst"
+        fi
     fi
 
     if [[ -n "$changed_examples" ]]
@@ -173,8 +173,8 @@ conda create -n $CONDA_ENV_NAME --yes --quiet python="${PYTHON_VERSION:-*}" \
   joblib memory_profiler packaging
 
 source activate testenv
-pip install sphinx-gallery==0.3.1
-pip install numpydoc==0.9
+pip install sphinx-gallery
+pip install numpydoc
 
 # Build and install scikit-learn in dev mode
 python setup.py build_ext --inplace -j 3
@@ -246,7 +246,7 @@ then
     echo '</ul></body></html>'
     ) > 'doc/_build/html/stable/_changed.html'
 
-    if [ $check ]
+    if [ "$warnings" != "/home/circleci/project/ no warnings" ]
     then
         echo "Sphinx generated warnings when building the documentation related to files modified in this PR."
         echo "Please check doc/_build/html/stable/_changed.html"
