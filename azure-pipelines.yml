@@ -50,6 +50,7 @@ jobs:
         DISTRIB: 'conda-pip-scipy-dev'
         PYTHON_VERSION: '*'
         CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
         CHECK_PYTEST_SOFT_DEPENDENCY: 'true'
         TEST_DOCSTRINGS: 'true'
         # Tests that require large downloads over the networks are skipped in CI.
@@ -117,6 +118,7 @@ jobs:
         CHECK_PYTEST_SOFT_DEPENDENCY: 'true'
         TEST_DOCSTRINGS: 'true'
         CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
 
 - template: build_tools/azure/posix-32.yml
   parameters:
@@ -172,6 +174,7 @@ jobs:
       py37_conda_mkl:
         PYTHON_VERSION: '3.7'
         CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
         PYTHON_ARCH: '64'
         PYTEST_VERSION: '*'
         COVERAGE: 'true'

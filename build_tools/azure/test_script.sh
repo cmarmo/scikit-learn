@@ -32,6 +32,10 @@ if [[ -n "$CHECK_WARNINGS" ]]; then
     TEST_CMD="$TEST_CMD -Werror::DeprecationWarning -Werror::FutureWarning"
 fi
 
+if [[ -n "$CHECK_ALL_WARNINGS" ]]; then
+    TEST_CMD="$TEST_CMD -Werror"
+fi
+
 if [[ "$PYTHON_VERSION" == "*" ]]; then
     TEST_CMD="$TEST_CMD -n2"
 fi
