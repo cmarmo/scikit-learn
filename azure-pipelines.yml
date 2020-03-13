@@ -96,7 +96,7 @@ jobs:
         PYTHON_VERSION: '3.6'
         BLAS: 'openblas'
         NUMPY_VERSION: '1.13.3'
-        SCIPY_VERSION: '0.19.1'
+        SCIPY_VERSION: '1.0.0'
         PANDAS_VERSION: '*'
         CYTHON_VERSION: '*'
         # temporary pin pytest due to unknown failure with pytest 5.3
