@@ -75,6 +75,8 @@ jobs:
         JOBLIB_VERSION: '*'
         THREADPOOLCTL_VERSION: '2.0.0'
         COVERAGE: 'true'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
 
 - template: build_tools/azure/posix.yml
   parameters:
@@ -91,6 +93,8 @@ jobs:
         PYTHON_VERSION: '3.6'
         JOBLIB_VERSION: '0.11'
         THREADPOOLCTL_VERSION: '2.0.0'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
       # Linux + Python 3.6 build with OpenBLAS and without SITE_JOBLIB
       py36_conda_openblas:
         DISTRIB: 'conda'
@@ -109,6 +113,8 @@ jobs:
         JOBLIB_VERSION: '0.13.2'
         THREADPOOLCTL_VERSION: '2.0.0'
         COVERAGE: 'true'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
       # Linux environment to test the latest available dependencies and MKL.
       # It runs tests requiring lightgbm, pandas and PyAMG.
       pylatest_pip_openblas_pandas:
@@ -133,6 +139,8 @@ jobs:
         PYTHON_VERSION: '3.6'
         JOBLIB_VERSION: '0.13'
         THREADPOOLCTL_VERSION: '2.0.0'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
 
 - template: build_tools/azure/posix.yml
   parameters:
@@ -153,6 +161,8 @@ jobs:
         JOBLIB_VERSION: '*'
         THREADPOOLCTL_VERSION: '2.0.0'
         COVERAGE: 'true'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
       pylatest_conda_mkl_no_openmp:
         DISTRIB: 'conda'
         PYTHON_VERSION: '*'
@@ -167,6 +177,8 @@ jobs:
         COVERAGE: 'true'
         SKLEARN_TEST_NO_OPENMP: 'true'
         SKLEARN_SKIP_OPENMP_TEST: 'true'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
 
 - template: build_tools/azure/windows.yml
   parameters:
@@ -185,3 +197,5 @@ jobs:
       py36_pip_openblas_32bit:
         PYTHON_VERSION: '3.6'
         PYTHON_ARCH: '32'
+        CHECK_WARNINGS: 'true'
+        CHECK_ALL_WARNINGS: 'true'
