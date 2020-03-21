@@ -22,7 +22,7 @@ python -c "import multiprocessing as mp; print('%d CPUs' % mp.cpu_count())"
 pip list
 
 TEST_CMD="python -m pytest --showlocals --durations=20 --junitxml=$JUNITXML \
--Wignore:*SkipTestWarning*:UserWarning"
+-Wignore:*SKIP*:UserWarning"
 
 if [[ "$COVERAGE" == "true" ]]; then
     export COVERAGE_PROCESS_START="$BUILD_SOURCESDIRECTORY/.coveragerc"
