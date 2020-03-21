@@ -21,7 +21,8 @@ except ImportError:
 python -c "import multiprocessing as mp; print('%d CPUs' % mp.cpu_count())"
 pip list
 
-TEST_CMD="python -m pytest --showlocals --durations=20 --junitxml=$JUNITXML"
+TEST_CMD="python -m pytest --showlocals --durations=20 --junitxml=$JUNITXML \
+-Wignore::SkipTestWarning"
 
 if [[ "$COVERAGE" == "true" ]]; then
     export COVERAGE_PROCESS_START="$BUILD_SOURCESDIRECTORY/.coveragerc"

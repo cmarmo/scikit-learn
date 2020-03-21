@@ -9,6 +9,8 @@ IF "%PYTHON_ARCH%"=="64" (
 mkdir %TMP_FOLDER%
 cd %TMP_FOLDER%
 
+set PYTEST_ARGS=%PYTEST_ARGS% -Wignore::SkipTestWarning
+
 if "%CHECK_WARNINGS%" == "true" (
     set PYTEST_ARGS=%PYTEST_ARGS% -Werror::DeprecationWarning -Werror::FutureWarning
 )
