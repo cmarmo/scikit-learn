@@ -9,6 +9,11 @@ IF "%PYTHON_ARCH%"=="64" (
 mkdir %TMP_FOLDER%
 cd %TMP_FOLDER%
 
+set TEST_IGN_DISTUTILS="-Wignore::DeprecationWarning:distutils"
+set TEST_IGN_SCIPY="ignore::ImportWarning:scipy"
+
+set PYTEST_ARGS=%PYTEST_ARGS% %TEST_IGN_DISTUTILS% %TEST_IGN_SCIPY%
+
 if "%CHECK_WARNINGS%" == "true" (
     set PYTEST_ARGS=%PYTEST_ARGS% -Werror::DeprecationWarning -Werror::FutureWarning
 )
