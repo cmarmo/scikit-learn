@@ -10,7 +10,7 @@ mkdir %TMP_FOLDER%
 cd %TMP_FOLDER%
 
 set TEST_IGN_DISTUTILS="-Wignore::DeprecationWarning:distutils"
-set TEST_IGN_SCIPY="ignore::ImportWarning:scipy"
+set TEST_IGN_SCIPY="-Wignore::ImportWarning:scipy"
 
 set PYTEST_ARGS=%PYTEST_ARGS% %TEST_IGN_DISTUTILS% %TEST_IGN_SCIPY%
 
