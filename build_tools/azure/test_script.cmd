@@ -11,7 +11,6 @@ cd %TMP_FOLDER%
 
 if "%CHECK_WARNINGS%" == "true" (
     set PYTEST_ARGS=%PYTEST_ARGS% -Werror::DeprecationWarning -Werror::FutureWarning
-    set PYTEST_ARGS=%PYTEST_ARGS% -Wignore::DeprecationWarning:distutils
 )
 
 if "%COVERAGE%" == "true" (
