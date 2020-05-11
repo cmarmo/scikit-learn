@@ -30,6 +30,7 @@ fi
 
 if [[ -n "$CHECK_WARNINGS" ]]; then
     TEST_CMD="$TEST_CMD -Werror::DeprecationWarning -Werror::FutureWarning"
+    TEST_CMD="$TEST_CMD -Wignore::DeprecationWarning:distutils"
 fi
 
 if [[ "$PYTHON_VERSION" == "*" ]]; then
