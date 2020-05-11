@@ -94,9 +94,9 @@ def pytest_configure(config):
         "network: mark a test for execution if network available."
     )
 
-    with warnings.catch_warnings():
+    with warnings.catch_warnings(module="distutils"):
         warnings.simplefilter("ignore")
-        warnings.warn("deprecated", DeprecationWarning, module="distutils")
+        warnings.warn("deprecated", DeprecationWarning)
 
 
 def pytest_unconfigure(config):
