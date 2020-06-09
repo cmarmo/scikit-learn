@@ -11,7 +11,9 @@ __all__ = ['NotFittedError',
            'EfficiencyWarning',
            'FitFailedWarning',
            'NonBLASDotWarning',
-           'UndefinedMetricWarning']
+           'SkipTestWarning',
+           'UndefinedMetricWarning',
+           'PositiveSpectrumWarning']
 
 
 class NotFittedError(ValueError, AttributeError):
@@ -28,17 +30,28 @@ class NotFittedError(ValueError, AttributeError):
     ...     LinearSVC().predict([[1, 2], [2, 3], [3, 4]])
     ... except NotFittedError as e:
     ...     print(repr(e))
-    ...                        # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
-    NotFittedError('This LinearSVC instance is not fitted yet',)
+    NotFittedError("This LinearSVC instance is not fitted yet. Call 'fit' with
+    appropriate arguments before using this estimator."...)
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.utils.validation.
     """
 
 
 class ChangedBehaviorWarning(UserWarning):
-    """Warning class used to notify the user of any change in the behavior."""
+    """Warning class used to notify the user of any change in the behavior.
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.base.
+    """
 
 
 class ConvergenceWarning(UserWarning):
-    """Custom warning to capture convergence problems"""
+    """Custom warning to capture convergence problems
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.utils.
+    """
 
 
 class DataConversionWarning(UserWarning):
@@ -47,12 +60,15 @@ class DataConversionWarning(UserWarning):
     This warning occurs when some input data needs to be converted or
     interpreted in a way that may not match the user's expectations.
 
-    For example, this warning may occur when the the user
+    For example, this warning may occur when the user
         - passes an integer array to a function which expects float input and
           will convert the input
         - requests a non-copying operation, but a copy is required to meet the
           implementation's data-type expectations;
         - passes an input whose shape can be interpreted ambiguously.
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.utils.validation.
     """
 
 
@@ -64,6 +80,9 @@ class DataDimensionalityWarning(UserWarning):
     projection space, is higher than the number of features, which quantifies
     the dimensionality of the original source space, to imply that the
     dimensionality of the problem will not be reduced.
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.utils.
     """
 
 
@@ -73,6 +92,8 @@ class EfficiencyWarning(UserWarning):
     This warning notifies the user that the efficiency may not be optimal due
     to some reason which may be included as a part of the warning message.
     This may be subclassed into a more specific Warning class.
+
+    .. versionadded:: 0.18
     """
 
 
@@ -83,25 +104,8 @@ class FitFailedWarning(RuntimeWarning):
     and the cross-validation helper function cross_val_score to warn when there
     is an error while fitting the estimator.
 
-    Examples
-    --------
-    >>> from sklearn.model_selection import GridSearchCV
-    >>> from sklearn.svm import LinearSVC
-    >>> from sklearn.exceptions import FitFailedWarning
-    >>> import warnings
-    >>> warnings.simplefilter('always', FitFailedWarning)
-    >>> gs = GridSearchCV(LinearSVC(), {'C': [-1, -2]}, error_score=0)
-    >>> X, y = [[1, 2], [3, 4], [5, 6], [7, 8], [8, 9]], [0, 0, 0, 1, 1]
-    >>> with warnings.catch_warnings(record=True) as w:
-    ...     try:
-    ...         gs.fit(X, y)   # This will raise a ValueError since C is < 0
-    ...     except ValueError:
-    ...         pass
-    ...     print(repr(w[-1].message))
-    ... # doctest: +NORMALIZE_WHITESPACE
-    FitFailedWarning("Classifier fit failed. The score on this train-test
-    partition for these parameters will be set to 0.000000. Details:
-    \\nValueError('Penalty term must be positive; got (C=-2)',)",)
+    .. versionchanged:: 0.18
+       Moved from sklearn.cross_validation.
     """
 
 
@@ -110,8 +114,36 @@ class NonBLASDotWarning(EfficiencyWarning):
 
     This warning is used to notify the user that BLAS was not used for dot
     operation and hence the efficiency may be affected.
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.utils.validation, extends EfficiencyWarning.
+    """
+
+
+class SkipTestWarning(UserWarning):
+    """Warning class used to notify the user of a test that was skipped.
+
+    For example, one of the estimator checks requires a pandas import.
+    If the pandas package cannot be imported, the test will be skipped rather
+    than register as a failure.
     """
 
 
 class UndefinedMetricWarning(UserWarning):
-    """Warning used when the metric is invalid"""
+    """Warning used when the metric is invalid
+
+    .. versionchanged:: 0.18
+       Moved from sklearn.base.
+    """
+
+
+class PositiveSpectrumWarning(UserWarning):
+    """Warning raised when the eigenvalues of a PSD matrix have issues
+
+    This warning is typically raised by ``_check_psd_eigenvalues`` when the
+    eigenvalues of a positive semidefinite (PSD) matrix such as a gram matrix
+    (kernel) present significant negative eigenvalues, or bad conditioning i.e.
+    very small non-zero eigenvalues compared to the largest eigenvalue.
+
+    .. versionadded:: 0.22
+    """
