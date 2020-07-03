@@ -91,7 +91,7 @@ def pytest_configure(config):
         "network: mark a test for execution if network available."
     )
 
-    with warnings.catch_warnings(module="scipy._lib"):
+    with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=ImportWarning)
 
 
