@@ -83,16 +83,12 @@ def pytest_collection_modifyitems(config, items):
 
 def pytest_configure(config):
     import sys
-    import warnings
     sys._is_pytest_session = True
     # declare our custom markers to avoid PytestUnknownMarkWarning
     config.addinivalue_line(
         "markers",
         "network: mark a test for execution if network available."
     )
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", category=ImportWarning)
 
 
 def pytest_unconfigure(config):

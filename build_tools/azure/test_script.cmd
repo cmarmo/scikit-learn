@@ -21,4 +21,4 @@ if "%COVERAGE%" == "true" (
     set PYTEST_ARGS=%PYTEST_ARGS% --cov sklearn
 )
 
-pytest --junitxml=%JUNITXML% --showlocals --durations=20 %PYTEST_ARGS% --pyargs sklearn
+pytest --junitxml=%JUNITXML% --showlocals --durations=20 -Wignore:scipy:ImportWarning %PYTEST_ARGS% --pyargs sklearn
