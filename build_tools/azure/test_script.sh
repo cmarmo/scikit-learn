@@ -34,7 +34,7 @@ if [[ -n "$CHECK_WARNINGS" ]]; then
 fi
 
 if [[ -n "$CHECK_ALL_WARNINGS" ]]; then
-    TEST_CMD="$TEST_CMD -Werror  -Wignore::SkipTestWarning"
+    TEST_CMD="$TEST_CMD -Werror  -Wignore::sklearn.exceptions.SkipTestWarning"
 fi
 
 if [[ "$PYTEST_XDIST_VERSION" != "none" ]]; then
