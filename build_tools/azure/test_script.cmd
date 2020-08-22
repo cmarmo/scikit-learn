@@ -18,7 +18,7 @@ if "%CHECK_WARNINGS%" == "true" (
 )
 
 if "%CHECK_ALL_WARNINGS%" == "true" (
-    set PYTEST_ARGS=%PYTEST_ARGS% -Werror
+    set PYTEST_ARGS=%PYTEST_ARGS% -Werror -Wignore::SkipTestWarning
 )
 
 if "%COVERAGE%" == "true" (
