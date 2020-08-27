@@ -26,7 +26,7 @@
   {% endif %}
 
   <link rel="stylesheet" href="{{ pathto('_static/css/vendor/bootstrap.min.css', 1) }}" type="text/css" />
-  <link rel="stylesheet" href="{{ pathto('_static/css/vendor/fontawesome.min.css', 1) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ pathto('_static/css/vendor/fontawesome-free-5.14.0-web/all.min.css', 1) }}" type="text/css" />
   {%- for css in css_files %}
     {%- if css|attr("rel") %}
   <link rel="{{ css.rel }}" href="{{ pathto(css.filename, 1) }}" type="text/css"{% if css.title is not none %} title="{{ css.title }}"{% endif %} />
