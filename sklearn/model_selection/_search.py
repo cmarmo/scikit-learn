@@ -84,11 +84,10 @@ class ParameterGrid:
     >>> ParameterGrid(grid)[1] == {'kernel': 'rbf', 'gamma': 1}
     True
 
-    See also
+    See Also
     --------
-    :class:`GridSearchCV`:
-        Uses :class:`ParameterGrid` to perform a full parallelized parameter
-        search.
+    GridSearchCV : Uses :class:`ParameterGrid` to perform a full parallelized
+        parameter search.
     """
 
     def __init__(self, param_grid):
@@ -205,10 +204,10 @@ class ParameterSampler:
         If a list of dicts is given, first a dict is sampled uniformly, and
         then a parameter is sampled using that dict as above.
 
-    n_iter : integer
+    n_iter : int
         Number of parameter settings that are produced.
 
-    random_state : int or RandomState instance, default=None
+    random_state : int, RandomState instance or None, default=None
         Pseudo random number generator state used for random uniform sampling
         from lists of possible values instead of scipy.stats distributions.
         Pass an int for reproducible output across multiple
@@ -482,6 +481,8 @@ class BaseSearchCV(MetaEstimatorMixin, BaseEstimator, metaclass=ABCMeta):
         Only available if ``refit=True`` and the underlying estimator supports
         ``score_samples``.
 
+        .. versionadded:: 0.24
+
         Parameters
         ----------
         X : iterable
@@ -490,7 +491,7 @@ class BaseSearchCV(MetaEstimatorMixin, BaseEstimator, metaclass=ABCMeta):
 
         Returns
         -------
-        y_score : ndarray, shape (n_samples,)
+        y_score : ndarray of shape (n_samples,)
         """
         self._check_is_fitted('score_samples')
         return self.best_estimator_.score_samples(X)
@@ -863,6 +864,15 @@ class BaseSearchCV(MetaEstimatorMixin, BaseEstimator, metaclass=ABCMeta):
 
             array_means = np.average(array, axis=1, weights=weights)
             results['mean_%s' % key_name] = array_means
+
+            if (key_name.startswith(("train_", "test_")) and
+                    np.any(~np.isfinite(array_means))):
+                warnings.warn(
+                    f"One or more of the {key_name.split('_')[0]} scores "
+                    f"are non-finite: {array_means}",
+                    category=UserWarning
+                )
+
             # Weighted std is not directly available in numpy
             array_stds = np.sqrt(np.average((array -
                                              array_means[:, np.newaxis]) ** 2,
@@ -1029,7 +1039,7 @@ class GridSearchCV(BaseSearchCV):
         .. versionchanged:: 0.20
             Support for callable added.
 
-    verbose : integer
+    verbose : int
         Controls the verbosity: the higher, the more messages.
 
         - >1 : the computation time for each fold and parameter candidate is
@@ -1199,16 +1209,12 @@ class GridSearchCV(BaseSearchCV):
 
     See Also
     ---------
-    :class:`ParameterGrid`:
-        generates all the combinations of a hyperparameter grid.
-
-    :func:`sklearn.model_selection.train_test_split`:
-        utility function to split the data into a development set usable
-        for fitting a GridSearchCV instance and an evaluation set for
-        its final evaluation.
-
-    :func:`sklearn.metrics.make_scorer`:
-        Make a scorer from a performance metric or loss function.
+    ParameterGrid : Generates all the combinations of a hyperparameter grid.
+    train_test_split : Utility function to split the data into a development
+        set usable for fitting a GridSearchCV instance and an evaluation set
+        for its final evaluation.
+    sklearn.metrics.make_scorer : Make a scorer from a performance metric or
+        loss function.
 
     """
     _required_parameters = ["estimator", "param_grid"]
@@ -1367,10 +1373,10 @@ class RandomizedSearchCV(BaseSearchCV):
         .. versionchanged:: 0.20
             Support for callable added.
 
-    verbose : integer
+    verbose : int
         Controls the verbosity: the higher, the more messages.
 
-    random_state : int or RandomState instance, default=None
+    random_state : int, RandomState instance or None, default=None
         Pseudo random number generator state used for random uniform sampling
         from lists of possible values instead of scipy.stats distributions.
         Pass an int for reproducible output across multiple
@@ -1517,13 +1523,9 @@ class RandomizedSearchCV(BaseSearchCV):
 
     See Also
     --------
-    :class:`GridSearchCV`:
-        Does exhaustive search over a grid of parameters.
-
-    :class:`ParameterSampler`:
-        A generator over parameter settings, constructed from
+    GridSearchCV : Does exhaustive search over a grid of parameters.
+    ParameterSampler : A generator over parameter settings, constructed from
         param_distributions.
-
 
     Examples
     --------

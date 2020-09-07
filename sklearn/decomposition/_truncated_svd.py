@@ -59,7 +59,7 @@ class TruncatedSVD(TransformerMixin, BaseEstimator):
         :func:`~sklearn.utils.extmath.randomized_svd` to handle sparse
         matrices that may have large slowly decaying spectrum.
 
-    random_state : int or RandomState instance, default=None
+    random_state : int, RandomState instance or None, default=None
         Used during randomized svd. Pass an int for reproducible results across
         multiple function calls.
         See :term:`Glossary <random_state>`.
@@ -100,7 +100,7 @@ class TruncatedSVD(TransformerMixin, BaseEstimator):
     >>> print(svd.singular_values_)
     [1.553... 1.512...  1.510... 1.370... 1.199...]
 
-    See also
+    See Also
     --------
     PCA
 
