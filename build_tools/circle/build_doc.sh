@@ -61,7 +61,7 @@ get_build_type() {
 
     # The following is used to extract the list of filenames of example python
     # files that sphinx-gallery needs to run to generate png files used as
-    # figures or images in the .rst files  from the documentation.
+    # figures or images in the .rst and .py files  from the documentation.
     # If the contributor changes a .rst file in a PR we need to run all
     # the examples mentioned in that file to get sphinx build the
     # documentation without generating spurious warnings related to missing
@@ -72,8 +72,11 @@ get_build_type() {
         # get rst files
         rst_files="$(echo "$filenames" | grep -E "rst$")"
 
+        # get py files
+        py_files="$(echo "$filenames" | grep -E "py$")"
+
         # get lines with figure or images
-        img_fig_lines="$(echo "$rst_files" | xargs grep -shE "(figure|image)::")"
+        img_fig_lines="$(echo "$rst_files $py_files" | xargs grep -shE "(figure|image)::")"
 
         # get only auto_examples
         auto_example_files="$(echo "$img_fig_lines" | grep auto_examples | awk -F "/" '{print $NF}')"
@@ -82,17 +85,17 @@ get_build_type() {
         scripts_names="$(echo "$auto_example_files" | sed 's/sphx_glr_//' | sed -E 's/_([[:digit:]][[:digit:]][[:digit:]]|thumb).png/.py/')"
 
         # get unique values
-        examples_in_rst="$(echo "$scripts_names" | uniq )"
+        examples_in_modified="$(echo "$scripts_names" | uniq )"
     fi
 
-    # executed only if there are examples in the modified rst files
-    if [[ -n "$examples_in_rst" ]]
+    # executed only if there are examples in the modified files
+    if [[ -n "$examples_in_modified" ]]
     then
         if [[ -n "$changed_examples" ]]
         then
-            changed_examples="$changed_examples|$examples_in_rst"
+            changed_examples="$changed_examples|$examples_in_modified"
         else
-            changed_examples="$examples_in_rst"
+            changed_examples="$examples_in_modified"
         fi
     fi
 
