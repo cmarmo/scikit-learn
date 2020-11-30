@@ -966,6 +966,18 @@ div.sphx-glr-thumbcontainer {
   padding: 0;
 }
 
+.sphx-glr-thumbcontainer[tooltip]:hover:after {
+  left: -5%;
+  bottom: 90%;
+}
+
+.sphx-glr-thumbcontainer[tooltip]:hover:before {
+  border: solid;
+  border-color: #333 transparent;
+  border-width: 22px 0 0 20px;
+  bottom: 85%;
+  left: 10%;
+}
 
 @media screen and (min-width: 1540px) {
   .sphx-glr-download-link-note {
