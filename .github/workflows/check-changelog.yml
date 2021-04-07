@@ -9,7 +9,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    if: (${{ contains(github.event.pull_request.labels.*.name, 'No Changelog Needed') == 0 }} || "${{ github.event.pull_request.milestone.title }}" == '')
+    if: ${{ ${{ contains(github.event.pull_request.labels.*.name, 'No Changelog Needed') == 0 }} || "${{ github.event.pull_request.milestone.title }}" == '' }}
     steps:
       - name: Get PR number and milestone
         run: |
